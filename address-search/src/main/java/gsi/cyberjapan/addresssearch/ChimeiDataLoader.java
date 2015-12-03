@@ -83,10 +83,6 @@ public class ChimeiDataLoader {
 							// 地名の読み仮名（ただし、フラグで「2」のデータについては住所）
 							break;
 						case 4:
-							// // 市区町村コード（頭の「0」は入れない）
-							// if (token.startsWith("0")) {
-							// token = token.substring(1);
-							// }
 							lgcode = token;
 							if (lgcode.length() < 5) {
 								while (lgcode.length() < 5) {
