@@ -41,7 +41,7 @@ public class ChimeiDataLoader {
 	static private String CHIMEI_INDEX_1 = "create index idx_chimei_title ON chimei(title)";
 
 	/**
-	 * 入力ファイルの情報をデータベースに格納処理をじっ呼応する
+	 * 入力ファイルの情報をデータベースに格納
 	 * @param inputFile 入力ファイル
 	 * @param conn データベース接続
 	 * @return 読み込みレコード数
@@ -66,10 +66,7 @@ public class ChimeiDataLoader {
 						String token = tokens[i];
 						switch (i) {
 						case 0:
-							// 都道府県コード（頭の「0」は入れない）
-							if (token.startsWith("0")) {
-								token = token.substring(1);
-							}
+							// 空カラム（未使用）
 							break;
 						case 1:
 							// 「地名or公共施設名」のフラグ。地名なら「1」。公共施設名なら「2」
@@ -80,9 +77,10 @@ public class ChimeiDataLoader {
 							title = token;
 							break;
 						case 3:
-							// 地名の読み仮名（ただし、フラグで「2」のデータについては住所）
+							// 空カラム（未使用）
 							break;
 						case 4:
+							// 市区町村コード（最初の桁が「0」の場合は除かれている）
 							lgcode = token;
 							if (lgcode.length() < 5) {
 								while (lgcode.length() < 5) {
@@ -99,22 +97,13 @@ public class ChimeiDataLoader {
 							lat = Double.parseDouble(token);
 							break;
 						case 7:
-							// 大分類（公共施設名の場合は「0」と入れること）
-							if (type.equals("2")) {
-								token = "0";
-							}
+							// 空カラム（未使用）
 							break;
 						case 8:
-							// 中分類（公共施設名の場合は「0」と入れること）
-							if (type.equals("2")) {
-								token = "0";
-							}
+							// 空カラム（未使用）
 							break;
 						case 9:
-							// 小分類（公共施設名の場合は「0」と入れること）
-							if (type.equals("2")) {
-								token = "0";
-							}
+							// 空カラム（未使用）
 							break;
 						}
 					}
