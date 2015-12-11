@@ -17,7 +17,7 @@ Tomcatの起動時に，地名データ(CSVファイル)をSQLiteのin-memory da
 ### 1. 地名データの用意
 
 地名データを用意します．
-地名データはCSVファイルで以下の情報を上から下の順にカンマ(,)区切りで記載します。
+地名データはCSVファイルで以下の情報を上から下の順にカンマ(,)区切りで記載します．
 
 カラム番号  |  内容 | 例
 ---- | ---- | ----
@@ -32,12 +32,13 @@ Tomcatの起動時に，地名データ(CSVファイル)をSQLiteのin-memory da
 9  |※空きカラム(未使用)※|
 10  |※空きカラム(未使用)※|
 
-ファイル名「chimei_utf8.dat」、文字コード「UTF-8」、改行コード「LF」で作成します。
+ファイル名「chimei_utf8.dat」、文字コード「UTF-8」、改行コード「LF」で作成します．
 
 ----
 ### 2. Dockerへの配備方法
 
 1. GitHubよりZIPファイルとして本API一式をダウンロードし，Dockerの環境にコピーし，ZIPを展開します．
+**sampleフォルダ配下には、gsimaps(地理院地図)に組み込んだサンプルコードを格納しています．**
 
 2. 用意した地名データ(chimei_utf8.dat)を以下のディレクトリにコピーします．
 ```
@@ -87,4 +88,26 @@ http://localhost:8080/address-search/AddressSearch?q=%E6%9D%B1%E4%BA%AC
 
 ```
 [{"geometry":{"coordinates":[139.343331472222,35.7550138055556],"type":"Point"},"type":"Feature","properties":{"addressCode":"13303","title":"東京水道"}}, ...
+```
+
+
+----
+## gsimaps(地理院地図)での動作確認用サンプル
+sampleフォルダ配下に、地名検索機能をgsimaps(地理院地図)で動作させるサンプルを格納しています．
+サンプルの地名検索では、地名検索機能と東京大学CSIS シンプルジオコーディング実験サービスの結果を表示します．
+address-searchフォルダ配下のPHPが実行出来るように設定する必要があります．
+```
+sample/gsimaps-gh-pages/GsiJsLibrary/address-search/address-search.php
+sample/gsimaps-gh-pages/GsiJsLibrary/address-search/csis.php
+```
+本サンプルコードの動作には、以下で公開している3つの機能を必要とします．
+ リバースジオコーダ機能：https://github.com/gsi-cyberjapan/internal-reversegeocoder
+ 標高API：https://github.com/gsi-cyberjapan/internal-elevation
+ カウンタ機能：https://github.com/gsi-cyberjapan/internal-counter
+上記3つの機能の呼び出し先は、sample/gsimaps-gh-pages/js/gsimaps.js のファイルで定義する必要があります．
+```
+CONFIG.SERVERAPI.ACCESSCOUNTER = 'http://localhost:8083/CounterJson.php';
+CONFIG.SERVERAPI.GETADDR = "http://localhost:8081/reverse-geocoder/LonLatToAddress";
+CONFIG.SERVERAPI.GETELEVATION = "http://localhost:8082/getelevation.php";
+
 ```
