@@ -1,4 +1,13 @@
-FROM java:8-jdk
+FROM centos:centos7
+RUN /usr/bin/yum -y update
+
+RUN /usr/bin/yum install -y java-1.8.0-openjdk-devel.x86_64
+ENV JAVA_HOME /usr/lib/jvm/java-1.8.0-openjdk
+ENV PATH $JAVA_HOME/bin:$PATH
+
+RUN /usr/bin/yum install -y apache php
+COPY src/ /var/www/html/
+COPY conf.d/ /etc/httpd/conf.d/
 
 ENV CATALINA_HOME /usr/local/tomcat
 ENV PATH $CATALINA_HOME/bin:$PATH
@@ -16,11 +25,7 @@ RUN set -x \
 	&& rm tomcat.tar.gz*
 	
 # Install maven
-RUN apt-get update  
-RUN apt-get install -y maven
-
-ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
-ENV PATH $JAVA_HOME/bin:$PATH
+RUN /usr/bin/yum install -y maven
 
 WORKDIR /tmp/address-search
 ADD address-search/pom.xml pom.xml
@@ -32,6 +37,9 @@ RUN ["mvn", "package"]
 RUN cp -r target/address-search "$CATALINA_HOME/webapps/"
 RUN rm -fr /tmp/address-search
 
-EXPOSE 8080
-WORKDIR $CATALINA_HOME
-CMD ["catalina.sh", "run"]
+RUN /usr/bin/yum clean all
+
+EXPOSE 80
+ADD bin/start-address-search.sh /usr/local/bin/start-address-search.sh
+RUN chmod +x /usr/local/bin/start-address-search.sh
+CMD ["/usr/local/bin/start-address-search.sh"]
