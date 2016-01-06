@@ -88,3 +88,20 @@ http://localhost:8080/address-search/AddressSearch?q=%E6%9D%B1%E4%BA%AC
 ```
 [{"geometry":{"coordinates":[139.343331472222,35.7550138055556],"type":"Point"},"type":"Feature","properties":{"addressCode":"13303","title":"東京水道"}}, ...
 ```
+
+
+----
+## gsimaps(地理院地図)での動作確認用サンプル
+sampleフォルダ配下に、地名検索機能をgsimaps(地理院地図)で動作させるサンプルを格納しています．
+```
+本サンプルコードの動作には、以下で公開している3つの機能を必要とします．
+ リバースジオコーダ機能：https://github.com/gsi-cyberjapan/internal-reversegeocoder
+ 標高API：https://github.com/gsi-cyberjapan/internal-elevation
+ カウンタ機能：https://github.com/gsi-cyberjapan/internal-counter
+地名検索機能、及び上記3つの機能の呼び出し先は、sample/gsimaps-gh-pages/js/gsimaps.js のファイルで定義する必要があります．
+```
+CONFIG.SERVERAPI.ACCESSCOUNTER = 'http://localhost:8083/CounterJson.php';
+CONFIG.SERVERAPI.GETADDR = "http://localhost:8081/reverse-geocoder/LonLatToAddress";
+CONFIG.SERVERAPI.GETELEVATION = "http://localhost:8082/getelevation.php";
+CONFIG.SERVERAPI.CHIMEI_SEARCH="http://localhost:8080/address-search/AddressSearch";
+```
