@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.WriteListener;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
@@ -34,7 +35,7 @@ public class GZIPFilter implements Filter {
 	@Override
 	public void destroy() {
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
 	 */
@@ -92,6 +93,20 @@ public class GZIPFilter implements Filter {
 			this.output.flush();
 			this.output.close();
 			this.closed = true;
+		}
+
+		/* (non-Javadoc)
+		 * @see javax.servlet.ServletOutputStream#isReady()
+		 */
+		public boolean isReady() {
+			return this.output.isReady();
+		}
+
+		/* (non-Javadoc)
+		 * @see javax.servlet.ServletOutputStream#setWriteListener(javax.servlet.WriteListener)
+		 */
+		public void setWriteListener(WriteListener writeListener) {
+			this.output.setWriteListener(writeListener);
 		}
 
 		/* (non-Javadoc)
