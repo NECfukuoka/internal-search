@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -112,7 +113,11 @@ public class ChimeiDataLoader {
 					chimeiStatement.setString(1, geomId);
 					chimeiStatement.setString(2, type);
 					chimeiStatement.setString(3, title);
-					chimeiStatement.setString(4, lgcode);
+					if (lgcode.equals("00000")) {
+						chimeiStatement.setNull(4, Types.VARCHAR);
+					} else {
+						chimeiStatement.setString(4, lgcode);
+					}
 					chimeiStatement.setDouble(5, lng);
 					chimeiStatement.setDouble(6, lat);
 					chimeiStatement.execute();

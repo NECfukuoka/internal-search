@@ -148,7 +148,7 @@ public class AddressSearchServlet extends HttpServlet {
 	private void searchFromSQLite(String searchWord,JSONArray records) {
 		try (Connection connection = this.dataSource.getConnection()) {
 			try (PreparedStatement query = connection
-					.prepareStatement("select title,lgcode,x,y from chimei where title like ? order by datatype")) {
+					.prepareStatement("select title,lgcode,x,y from chimei where title like ? order by datatype desc,case when lgcode is null then 1 else 0 end,lgcode,title")) {
 				query.setString(1, "%" + searchWord + "%");
 				try (ResultSet resultSet = query.executeQuery()) {
 					while (resultSet.next()) {
@@ -173,7 +173,9 @@ public class AddressSearchServlet extends HttpServlet {
 						record.put("geometry", geometry);
 						JSONObject properties = new JSONObject();
 						properties.put("title", title);
-						properties.put("addressCode", lgcode);
+						if (lgcode != null) {
+							properties.put("addressCode", lgcode);
+						}
 						record.put("properties", properties);
 						records.add(record);
 					}
