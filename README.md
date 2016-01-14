@@ -93,7 +93,7 @@ http://localhost:8080/address-search/AddressSearch?q=%E6%9D%B1%E4%BA%AC
 ----
 ## gsimaps(地理院地図)での動作確認用サンプル
 sampleフォルダ配下に、地名検索機能をgsimaps(地理院地図)で動作させるサンプルを格納しています．
-```
+
 本サンプルコードの動作には、以下で公開している3つの機能を必要とします．
  リバースジオコーダ機能：https://github.com/gsi-cyberjapan/internal-reversegeocoder
  標高API：https://github.com/gsi-cyberjapan/internal-elevation

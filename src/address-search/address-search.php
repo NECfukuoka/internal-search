@@ -20,8 +20,6 @@ require "csis.php";
 $dataSourceList = array(
 	//東京大学CSIS シンプルジオコーディング実験サービス 住所
 	"csisAddress" => new CSISAddressDataSource(),
-	//東京大学CSIS シンプルジオコーディング実験サービス 駅
-	"csisStation" => new CSISStationDataSource()
 );
 
 foreach ($dataSourceList as $key => $dataSource) {

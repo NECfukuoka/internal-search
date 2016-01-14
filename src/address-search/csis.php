@@ -72,29 +72,3 @@ class CSISAddressDataSource  extends CSISDataSource {
 		return $record;
 	}
 }
-
-class CSISStationDataSource extends CSISDataSource {
-	function __construct() {
-		parent::__construct("STATION");
-	}
-	function parseRow($row) {
-		$tokens = explode("/",$row->address);
-		$address = "";
-		for ($i = 0; $i < count($tokens); $i++) {
-			$address = $address . $tokens[$i];
-		}
-		$addressCode = "";
-		$record = array(
-			"type" => "Feature",
-			"geometry" => array(
-				"type" => "Point",
-				"coordinates" => array((float)$row->longitude,(float)$row->latitude)
-			),
-			"properties" => array(
-				"title" => $address,
-				"addressCode" => $addressCode
-			)
-		);
-		return $record;
-	}
-}
